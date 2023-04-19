@@ -1,12 +1,13 @@
 import React from 'react';
 import { MenuLink } from './Navigtion.styled';
+import { useAuth } from '../../hooks';
 
 function Navigation() {
+  const { isLoggedIn } = useAuth();
   return (
     <nav>
       <MenuLink to="/">Main</MenuLink>
-
-      <MenuLink to="/contacts">Contacts</MenuLink>
+      {isLoggedIn && <MenuLink to="/contacts">Contacts</MenuLink>}
     </nav>
   );
 }
