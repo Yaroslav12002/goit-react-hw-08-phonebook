@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Notify } from 'notiflix';
 import { register, logIn, logOut, fetchCurrentUser } from './auth-operations';
 
 const initialState = {
@@ -18,10 +19,16 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.isLoggedIn = true;
       })
+      .addCase(register.rejected, () => {
+        Notify.failure(`Can't accept this authentification data`);
+      })
       .addCase(logIn.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.isLoggedIn = true;
+      })
+      .addCase(logIn.rejected, (state, action) => {
+        Notify.failure(`Login failed. Check you Name and Password`);
       })
       .addCase(logOut.fulfilled, (state, _) => {
         state.user = { name: null, email: null };
@@ -37,7 +44,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.isRefreshing = false;
       })
-      .addCase(fetchCurrentUser.rejected, (state, action) => {
+      .addCase(fetchCurrentUser.rejected, (state, _) => {
         state.isRefreshing = false;
       }),
 });

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../redux/auth';
+import { Title, LoginForm, LoginButton } from './LoginPage.styled';
 
 const styles = {
   form: {
@@ -31,6 +32,9 @@ export default function LoginPage() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (!email || !password) {
+      return;
+    }
     dispatch(logIn({ email, password }));
     setEmail('');
     setPassword('');
@@ -38,9 +42,9 @@ export default function LoginPage() {
 
   return (
     <div>
-      <h1>Login page</h1>
+      <Title>Login page</Title>
 
-      <form onSubmit={handleSubmit} style={styles.form} autoComplete="off">
+      <LoginForm onSubmit={handleSubmit} style={styles.form} autoComplete="off">
         <label style={styles.label}>
           Mail
           <input
@@ -61,8 +65,8 @@ export default function LoginPage() {
           />
         </label>
 
-        <button type="submit">Login</button>
-      </form>
+        <LoginButton type="submit">Login</LoginButton>
+      </LoginForm>
     </div>
   );
 }

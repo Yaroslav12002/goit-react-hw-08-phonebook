@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { register } from '../redux/auth';
+import {
+  RegisterTitle,
+  RegisterForm,
+  RegisterButton,
+} from './RegisterPage.styled';
 
 const styles = {
   form: {
@@ -42,9 +47,13 @@ export default function RegisterPage() {
 
   return (
     <div>
-      <h1>Register page</h1>
+      <RegisterTitle>Register page</RegisterTitle>
 
-      <form onSubmit={handleSubmit} style={styles.form} autoComplete="off">
+      <RegisterForm
+        onSubmit={handleSubmit}
+        style={styles.form}
+        autoComplete="off"
+      >
         <label style={styles.label}>
           Name
           <input type="text" name="name" value={name} onChange={handleChange} />
@@ -70,8 +79,8 @@ export default function RegisterPage() {
           />
         </label>
 
-        <button type="submit">Register</button>
-      </form>
+        <RegisterButton type="submit">Register</RegisterButton>
+      </RegisterForm>
     </div>
   );
 }
