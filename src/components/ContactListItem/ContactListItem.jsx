@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import { Contact, Button } from './ContactListItem.styled';
+import { Contact, Button, ItemImage } from './ContactListItem.styled';
+import DeleteButton from './TrashCan.png';
 
-const ContactListItem = ({ name, phone, onDeleteContact, id }) => {
+const ContactListItem = ({ name, number, onDeleteContact, id }) => {
   return (
     <Contact>
       <div>
-        <span>{name}</span>: <span>{phone}</span>
+        <span>{name}</span>: <span>{number}</span>
       </div>
       <Button
         type="button"
@@ -13,7 +14,7 @@ const ContactListItem = ({ name, phone, onDeleteContact, id }) => {
           onDeleteContact(id);
         }}
       >
-        delete
+        <ItemImage src={DeleteButton} />
       </Button>
     </Contact>
   );
@@ -21,7 +22,7 @@ const ContactListItem = ({ name, phone, onDeleteContact, id }) => {
 
 ContactListItem.propTypes = {
   name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
   onDeleteContact: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
 };

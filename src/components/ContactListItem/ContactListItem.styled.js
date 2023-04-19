@@ -1,22 +1,27 @@
 import styled from 'styled-components';
+import { colors } from '../../utils/constants';
 
 export const Contact = styled.li`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 600px;
   font-size: 22px;
   :not(:last-child) {
     margin-bottom: 10px;
   }
   :nth-child(2n) {
-    background-color: #eee;
+    background-color: ${colors.backgroundAccent};
   }
 `;
 
 export const Button = styled.button`
   margin-left: 20px;
-  background-color: white;
-  border: 1px solid grey;
-  border-radius: 4px;
-  background-color: inherit;
+  border: 0px;
+  background-color: transparent;
+`;
+
+export const ItemImage = styled.img`
+  height: 40px;
+  border-radius: 50%;
 `;

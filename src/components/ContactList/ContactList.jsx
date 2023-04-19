@@ -1,8 +1,8 @@
 import ContactListItem from '../ContactListItem';
-import { ContactListElement } from './ContactList.styled';
-import { selectVisibleContacts } from 'redux/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/operations';
+import { selectVisibleContacts } from 'redux/contacts/selectors';
+import { deleteContact } from 'redux/contacts/operations';
+import { ContactListElement } from './ContactList.styled';
 
 const ContactList = () => {
   const contacts = useSelector(selectVisibleContacts);
@@ -12,22 +12,14 @@ const ContactList = () => {
     dispatch(deleteContact(idForDelete));
   };
 
-  // const getVisibleContacts = () => {
-  //   const normalizedFilter = filter.toLowerCase();
-
-  //   return contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalizedFilter)
-  //   );
-  // };
-
   return (
     <ContactListElement>
-      {contacts.map(({ id, name, phone }) => {
+      {contacts.map(({ id, name, number }) => {
         return (
           <ContactListItem
             key={id}
             name={name}
-            phone={phone}
+            number={number}
             onDeleteContact={() => {
               handleDeleteContact(id);
             }}

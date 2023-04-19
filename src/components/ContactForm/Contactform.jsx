@@ -7,9 +7,9 @@ import {
 import { Notify } from 'notiflix';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
-import { getContacts } from 'redux/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/contacts/selectors';
+import { addContact } from 'redux/contacts/operations';
 
 const initialValues = { name: '', number: '' };
 
@@ -36,7 +36,7 @@ const schema = yup.object().shape({
 });
 
 function ContactForm() {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
@@ -51,7 +51,7 @@ function ContactForm() {
       return;
     }
 
-    dispatch(addContact({ name, phone: number }));
+    dispatch(addContact({ name, number }));
 
     resetForm();
   };

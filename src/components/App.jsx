@@ -1,35 +1,66 @@
+import { useEffect, lazy, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchContacts } from 'redux/operations';
-import { getError, getIsLoading } from 'redux/selectors';
+import { Routes, Route } from 'react-router-dom';
+import NotFound from '../pages/NotFound';
+import Container from 'components/Container';
+import PrivateRoute from 'components/PrivateRoute';
+import PublicRoute from 'components/PublicRoute';
+import { fetchCurrentUser, authSelectors } from 'redux/auth';
+import AppBar from './AppBar';
 
-import ContactForm from './ContactForm/Contactform';
-import ContactList from './ContactList';
-import Filter from './Filter';
-import { Section } from './App.styled';
+const HomePage = lazy(() => import('../pages/HomePage'));
+const ContactsPage = lazy(() => import('../pages/ContactsPage'));
+const RegisterPage = lazy(() => import('../pages/RegisterPage'));
+const LoginPage = lazy(() => import('../pages/LoginPage'));
 
-export function App() {
+export default function App() {
   const dispatch = useDispatch();
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+  const isRefreshing = useSelector(authSelectors.selectIsRefreshing);
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(fetchCurrentUser());
   }, [dispatch]);
 
-  return (
-    <Section>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-
-      <ContactList />
-      {isLoading && !error && (
-        <p>
-          <b>Request in progress...</b>
-        </p>
-      )}
-    </Section>
+  return isRefreshing ? (
+    <div>Loading...</div>
+  ) : (
+    <Container>
+      <AppBar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<PublicRoute component={<HomePage />} />} />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute
+                redirectTo="/contacts"
+                component={<RegisterPage />}
+                restricted
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute
+                redirectTo="/contacts"
+                component={<LoginPage />}
+                restricted
+              />
+            }
+          />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute redirectTo="/login" component={<ContactsPage />} />
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </Container>
   );
 }
+
+//tusk@mail.com
+//123qwerty
